@@ -1,0 +1,7 @@
+/.vscode   //vscode sattinga
+/node_modules
+./dist   //destribution related
+
+*.env
+.env
+.env.*
