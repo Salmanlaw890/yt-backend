@@ -49,6 +49,7 @@ const userSchema = new Schema(
     },{timestamps:true});
 
 
+
 //pre is a mongoose hook which does something before.it takes two parameters 
 //1)before what work it should run i.e(on_save,delete,update)
 //2)what should be done

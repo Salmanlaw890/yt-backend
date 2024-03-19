@@ -50,6 +50,7 @@ router.route("/cover-image").patch(verifyJWT,upload.single("coverImage"),UpdateC
 
 
 //here we use (/channel/:) b/c we are getting data from req.params(parameters i.e URL) its the syntax.the channel b/w two / is just name you can use any.
+//:username means username can be dynamic i.e can be anyone(ali,ahmad,khan etc). wew use : when value is dynamic.
 router.route("/channel/:username").get(verifyJWT,getUserChannelProfile)//dont write : after channel/ in postman instead write channel/name of logIn any user(salman,ahmad etc any name) 
 
 

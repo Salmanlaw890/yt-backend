@@ -29,17 +29,13 @@ const uploadCloudinary = async (localFilePath)=>{
     }
 }
 
-const deleteCloudinary = async (local_path)=>{
+const deleteCloudinary = async (public_id)=>{
     try {
-        if(!local_path){
+        if(!public_id){
             return null;
         }
-        const deleteImage  = await cloudinary.uploader.destroy(local_path,{
-            resource_type:"auto",
-            invalidate:true //to clear catches data also of the deleted image
-        });
-
-        return deleteImage;
+        const response  = await cloudinary.uploader.destroy(public_id);
+        return response;
     } catch (error) {
         return null;
     }

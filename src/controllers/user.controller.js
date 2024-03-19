@@ -1,10 +1,9 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 // try-catch is handel by it we just need to write code
 import {ApiError} from "../utils/ApiError.js"
-import { User } from "../models/User.model.js";
+import {User} from "../models/User.model.js"
 import {uploadCloudinary,deleteCloudinary} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { response } from "express";
 import  jwt  from "jsonwebtoken";
 import mongoose from "mongoose";
 
@@ -113,7 +112,6 @@ if (!createdUser) {
 return res.status(201).json(
     // in ApiResponse three things are required.
     new ApiResponse(200,createdUser,"user Registered successfully"),
-    res.send(response)
 )
 
 });
@@ -326,7 +324,18 @@ const updateAvatar = asyncHandler(async (req,res)=>{
         throw new ApiError(200,"avatarLocalPath is missing")
     }
       //TODO: delete the old image
-     await deleteCloudinary(req.user.avatar);
+      const findUser = await User.findOne(req.user._id)
+    if(findUser){
+        const oldAvatar = findUser.avatar;
+        if(oldAvatar){
+            await deleteCloudinary(oldAvatar);
+        }else{
+            throw new ApiError(200,"oldAvatar is missing")
+        }
+    }else{
+        throw new ApiError(200,"user is missing")
+    }
+     
 
     const avatar = await uploadCloudinary(avatarLocalPath)
     if (!avatar.url) {
@@ -357,7 +366,17 @@ const UpdateCoverImage = asyncHandler(async (req,res)=>{
         throw new ApiError(200,"coverImageLocalPath file is missing")
     }
     //TODO: delete the old image
-         await deleteCloudinary(req.user.coverImage);
+    const findUser = await User.findOne(req.user._id)
+    if(findUser){
+        const oldCover = findUser.coverImage;
+        if(oldCover){
+            await deleteCloudinary(oldCover);
+        }else{
+            throw new ApiError(200,"oldCover is missing")
+        }
+    }else{
+        throw new ApiError(200,"user is missing")
+    }
 
 
     const coverImage = await uploadCloudinary(coverImageLocalPath)
